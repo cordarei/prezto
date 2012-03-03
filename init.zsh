@@ -31,7 +31,8 @@ fpath=(
 )
 
 # Load and initialize the completion system ignoring insecure directories.
-autoload -Uz compinit && compinit -i
+dump_file="${XDG_CACHE_HOME:-"$HOME/.cache/zsh"}/zcompdump" #unset at end of file
+autoload -Uz compinit && compinit -i -d $dump_file
 
 # Source files (the order matters).
 source "${0:h}/helper.zsh"
@@ -92,7 +93,6 @@ prompt "$prompt_argv[@]"
 unset prompt_argv
 
 # Compile the completion dump, to increase startup speed.
-dump_file="${XDG_CACHE_HOME:-"$HOME/.cache/zsh"}/zcompdump"
 if [[ "$dump_file" -nt "${dump_file}.zwc" || ! -f "${dump_file}.zwc" ]]; then
   zcompile "$dump_file"
 fi

@@ -8,17 +8,21 @@
 setopt CORRECT               # Correct commands.
 
 # The 'ls' Family
+
+# get any defaults options defined by the user
+zstyle -s ':omz:alias:ls' opts lsopts
+
 if zstyle -t ':omz:alias:ls' color; then
   if [[ -f "$HOME/.dir_colors" ]] && (( $+commands[dircolors] )); then
     eval $(dircolors "$HOME/.dir_colors")
-    alias ls='ls -hF --group-directories-first --color=auto'
+    alias ls="ls $lsopts -hF --group-directories-first --color=auto"
   elif (( $+commands[dircolors] )); then
     eval $(dircolors)
-    alias ls='ls -hF --group-directories-first --color=auto'
+    alias ls="ls $lsopts -hF --group-directories-first --color=auto"
   else
     export CLICOLOR=1
     export LSCOLORS="exfxcxdxbxegedabagacad"
-    alias ls='ls -G -F'
+    alias ls="ls $lsopts -G -F"
   fi
 fi
 

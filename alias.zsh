@@ -19,11 +19,11 @@ if zstyle -t ':omz:alias:ls' color; then
     else
         eval $(dircolors)
     fi
-    alias ls="ls $lsopts -hF --group-directories-first --color=auto"
+    alias ls="ls $lsopts --color=auto"
   else
     export CLICOLOR=1
     export LSCOLORS="exfxcxdxbxegedabagacad"
-    alias ls="ls $lsopts -G -F"
+    alias ls="ls $lsopts -G"
   fi
 fi
 

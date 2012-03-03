@@ -31,7 +31,7 @@ fpath=(
 )
 
 # Load and initialize the completion system ignoring insecure directories.
-dump_file="${XDG_CACHE_HOME:-"$HOME/.cache/zsh"}/zcompdump" #unset at end of file
+dump_file="${XDG_CACHE_HOME:-"$HOME/.cache"}/zsh/zcompdump" #unset at end of file
 autoload -Uz compinit && compinit -i -d $dump_file
 
 # Source files (the order matters).

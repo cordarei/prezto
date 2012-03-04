@@ -24,40 +24,30 @@ unsetopt CHECK_JOBS       # Don't report on jobs when shell exit.
 # PATH
 typeset -U cdpath fpath infopath manpath path
 
+datadir=${XDG_DATA_HOME:-$HOME/.local/share}
+
 cdpath=(
   $HOME
-  $HOME/Developer
 )
 
 infopath=(
-  $HOME/.tilde/share/info
-  $HOME/.tilde/opt/share/info
-  /usr/local/share/info
-  /usr/share/info
+  $datadir/info
+  ${datadir%/share}/info
+  $infopath
 )
 
 manpath=(
-  $HOME/.tilde/share/man
-  $HOME/.tilde/opt/share/man
-  /usr/local/share/man
-  /usr/share/man
+  $datadir/man
+  ${datadir%/share}/man
+  $manpath
 )
-
-for path_file in /etc/manpaths.d/*(.N); do
-  manpath+=($(<$path_file))
-done
 
 path=(
-  $HOME/.tilde/{bin,sbin}
-  $HOME/.tilde/opt/{bin,sbin}
-  /usr/local/{bin,sbin}
-  /usr/{bin,sbin}
-  /{bin,sbin}
+  ${datadir%/share}/bin
+  $path
 )
 
-for path_file in /etc/paths.d/*(.N); do
-  path+=($(<$path_file))
-done
+unset datadir
 
 # Language
 if [[ -z "$LANG" ]]; then

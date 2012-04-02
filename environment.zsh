@@ -10,8 +10,9 @@ autoload -Uz url-quote-magic
 zle -N self-insert url-quote-magic
 
 # General
+setopt BRACE_CCL          # Allow brace character class list expansion.
 setopt RC_QUOTES          # Allow 'Henry''s Garage' instead of 'Henry'\''s Garage'.
-unsetopt MAIL_WARNING     # Don't print a warning message if a mail file has been accessed
+unsetopt MAIL_WARNING     # Don't print a warning message if a mail file has been accessed.
 
 # Jobs
 setopt LONG_LIST_JOBS     # List jobs in the long format by default.
@@ -22,30 +23,47 @@ unsetopt HUP              # Don't kill jobs on shell exit.
 unsetopt CHECK_JOBS       # Don't report on jobs when shell exit.
 
 # PATH
-typeset -U cdpath fpath infopath manpath path
+typeset -gU cdpath fpath mailpath manpath path
+typeset -gUT INFOPATH infopath
 
 datadir=${XDG_DATA_HOME:-$HOME/.local/share}
 
 cdpath=(
   $HOME
+  $cdpath
 )
 
 infopath=(
   $datadir/info
   ${datadir%/share}/info
+  /usr/local/share/info
+  /usr/share/info
   $infopath
 )
 
 manpath=(
   $datadir/man
   ${datadir%/share}/man
+  /usr/local/share/man
+  /usr/share/man
   $manpath
 )
 
+for path_file in /etc/manpaths.d/*(.N); do
+  manpath+=($(<$path_file))
+done
+
 path=(
   ${datadir%/share}/bin
+  /usr/local/{bin,sbin}
+  /usr/{bin,sbin}
+  /{bin,sbin}
   $path
 )
+
+for path_file in /etc/paths.d/*(.N); do
+  path+=($(<$path_file))
+done
 
 unset datadir
 
@@ -66,11 +84,7 @@ if zstyle -t ':omz:environment:grep' color; then
 fi
 
 # Browser (Default)
-if (( $+commands[xdg-open] )); then
-  export BROWSER='xdg-open'
-fi
-
-if (( $+commands[open] )); then
+if [[ "$OSTYPE" == darwin* ]]; then
   export BROWSER='open'
 fi
 
@@ -78,7 +92,10 @@ fi
 export LESSCHARSET="UTF-8"
 export LESSHISTFILE='-'
 export LESSEDIT='vim ?lm+%lm. %f'
-export LESS='-F -g -i -M -R'
+
+# Mouse-wheel scrolling has been disabled by -X (disable screen clearing).
+# Remove -X and -F (exit if the content fits on one screen) to enable it.
+export LESS='-g -i -M -R -S -w -z-4'
 
 if (( $+commands[lesspipe.sh] )); then
   export LESSOPEN='| /usr/bin/env lesspipe.sh %s 2>&-'

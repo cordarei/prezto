@@ -28,7 +28,7 @@ WORDCHARS='*?_-.[]~&;!#$%^(){}<>'
 
 # Use caching to make completion for cammands such as dpkg and apt usable.
 zstyle ':completion::complete:*' use-cache on
-zstyle ':completion::complete:*' cache-path "${XDG_CACHE_HOME:-"$HOME/.cache/zsh"}/zcache"
+zstyle ':completion::complete:*' cache-path "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcache"
 
 # Case-insensitive (all), partial-word, and then substring completion.
 if zstyle -t ':omz:completion:*' case-sensitive; then

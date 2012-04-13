@@ -26,7 +26,7 @@ unsetopt CHECK_JOBS       # Don't report on jobs when shell exit.
 typeset -gU cdpath fpath mailpath manpath path
 typeset -gUT INFOPATH infopath
 
-datadir=${XDG_DATA_HOME:-$HOME/.local/share}
+datadir="${XDG_DATA_HOME:-$HOME/.local/share}"
 
 cdpath=(
   $HOME

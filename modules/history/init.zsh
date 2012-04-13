@@ -6,7 +6,7 @@
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
 
-HISTFILE="${XDG_CACHE_HOME:-"$HOME/.cache"}/zsh/history"
+HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/history"
 HISTSIZE=10000
 SAVEHIST=10000
 

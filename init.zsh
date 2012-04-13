@@ -46,7 +46,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
 fi
 
 # Compile the completion dump, to increase startup speed.
-dump_file="$HOME/.zcompdump"
+dump_file="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump"
 if [[ "$dump_file" -nt "${dump_file}.zwc" || ! -f "${dump_file}.zwc" ]]; then
   zcompile "$dump_file"
 fi

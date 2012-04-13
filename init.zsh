@@ -16,76 +16,26 @@ unset min_zsh_version
 # Disable color and theme in dumb terminals.
 if [[ "$TERM" == 'dumb' ]]; then
   zstyle ':omz:*:*' color 'no'
-  zstyle ':omz:prompt' theme 'off'
+  zstyle ':omz:module:prompt' theme 'off'
 fi
 
-# Get enabled plugins.
-zstyle -a ':omz:load' plugin 'plugins'
-
-# Add functions to fpath.
-fpath=(
-  ${0:h}/themes/*(/FN)
-  ${plugins:+${0:h}/plugins/${^plugins}/{functions,completions}(/FN)}
-  ${0:h}/{functions,completions}(/FN)
-  $fpath
-)
-
-# Autoload Zsh modules.
-zstyle -a ':omz:load' module 'zsh_modules'
-for zsh_module in "$zsh_modules[@]"; do
-  zmodload "${(z)zsh_module}"
-done
-unset zsh_modules zsh_module
+# Load Zsh modules.
+zstyle -a ':omz:load' zmodule 'zmodules'
+for zmodule ("$zmodules[@]") zmodload "zsh/${(z)zmodule}"
+unset zmodule{s,}
 
 # Autoload Zsh functions.
-zstyle -a ':omz:load' function 'zsh_functions'
-for zsh_function in "$zsh_functions[@]"; do
-  autoload -Uz "$zsh_function"
-done
-unset zsh_functions zsh_function
-
-# Load and initialize the completion system ignoring insecure directories.
-dump_file="${XDG_CACHE_HOME:-"$HOME/.cache"}/zsh/compdump" #unset at end of file
-[[ -d ${dump_file%/*} ]] || mkdir ${dump_file%/*}
-autoload -Uz compinit && compinit -i -d $dump_file
+zstyle -a ':omz:load' zfunction 'zfunctions'
+for zfunction ("$zfunctions[@]") autoload -Uz "$zfunction"
+unset zfunction{s,}
 
 # Source files (the order matters).
 source "${0:h}/helper.zsh"
-source "${0:h}/environment.zsh"
-source "${0:h}/terminal.zsh"
-source "${0:h}/editor.zsh"
-source "${0:h}/completion.zsh"
-source "${0:h}/history.zsh"
-source "${0:h}/directory.zsh"
-source "${0:h}/spectrum.zsh"
-source "${0:h}/alias.zsh"
-source "${0:h}/utility.zsh"
 
-# Source plugins defined in ~/.zshrc.
-for plugin in "$plugins[@]"; do
-  if [[ ! -d "${0:h}/plugins/$plugin" ]]; then
-    print "omz: no such plugin: $plugin" >&2
-  fi
-
-  if [[ -f "${0:h}/plugins/$plugin/init.zsh" ]]; then
-    source "${0:h}/plugins/$plugin/init.zsh"
-  fi
-
-  if (( $? == 0 )); then
-    zstyle ":omz:plugin:$plugin" enable 'yes'
-  fi
-done
-unset plugin plugins
-
-# Autoload Oh My Zsh functions.
-for fdir in "$fpath[@]"; do
-  if [[ "$fdir" == ${0:h}/(|*/)functions ]]; then
-    for omz_function in $fdir/[^_.]*(N.:t); do
-      autoload -Uz "$omz_function"
-    done
-  fi
-done
-unset fdir omz_function
+# Source modules defined in ~/.zshrc.
+zstyle -a ':omz:load' omodule 'omodules'
+omodload "$omodules[@]"
+unset omodules
 
 # Set environment variables for launchd processes.
 if [[ "$OSTYPE" == darwin* ]]; then
@@ -94,18 +44,6 @@ if [[ "$OSTYPE" == darwin* ]]; then
   done
   unset env_var
 fi
-
-# Load and run the prompt theming system.
-autoload -Uz promptinit && promptinit
-
-# Load the prompt theme.
-zstyle -a ':omz:prompt' theme 'prompt_argv'
-if (( $#prompt_argv > 0 )); then
-  prompt "$prompt_argv[@]"
-else
-  prompt 'off'
-fi
-unset prompt_argv
 
 # Compile the completion dump, to increase startup speed.
 if [[ "$dump_file" -nt "${dump_file}.zwc" || ! -f "${dump_file}.zwc" ]]; then

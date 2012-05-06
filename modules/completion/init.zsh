@@ -104,7 +104,7 @@ zstyle ':completion:*:*:*:users' ignored-patterns \
 zstyle '*' single-ignored show
 
 # Ignore multiple entries.
-zstyle ':completion:*:(rm|kill|diff):*' ignore-line yes
+zstyle ':completion:*:(rm|kill|diff):*' ignore-line other
 zstyle ':completion:*:rm:*' file-patterns '*:all-files'
 
 # Kill
@@ -125,7 +125,7 @@ zstyle ':completion:*:*:ogg123:*' file-patterns '*.(ogg|OGG|flac):ogg\ files *(-
 zstyle ':completion:*:*:mocp:*' file-patterns '*.(wav|WAV|mp3|MP3|ogg|OGG|flac):ogg\ files *(-/):directories'
 
 # Mutt
-if [[ -f ~/.mutt/aliases ]]; then
+if [[ -s ~/.mutt/aliases ]]; then
   zstyle ':completion:*:*:mutt:*' menu yes select
   zstyle ':completion:*:mutt:*' users ${${${(f)"$(<~/.mutt/aliases)"}#alias[[:space:]]}%%[[:space:]]*}
 fi

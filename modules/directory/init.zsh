@@ -14,7 +14,7 @@ setopt PUSHD_TO_HOME        # Push to home directory when no argument is given.
 setopt CDABLE_VARS          # Change directory to a path stored in a variable.
 setopt AUTO_NAME_DIRS       # Auto add variable-stored paths to ~ list.
 setopt MULTIOS              # Write to multiple descriptors.
-unsetopt CLOBBER            # Don't overwrite existing files with > and >>.
+setopt CLOBBER              # Don't overwrite existing files with > and >>.
                             # Use >! and >>! to bypass.
 
 # Aliases

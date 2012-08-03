@@ -12,6 +12,8 @@ export OMZ="$HOME/.oh-my-zsh"
 typeset -gU cdpath fpath mailpath manpath path
 typeset -gUT INFOPATH infopath
 
+datadir="${XDG_DATA_HOME:-$HOME/.local/share}"
+
 # Set the the list of directories that cd searches.
 # cdpath=(
 #   $cdpath
@@ -19,6 +21,8 @@ typeset -gUT INFOPATH infopath
 
 # Set the list of directories that info searches for manuals.
 infopath=(
+  $datadir/info
+  ${datadir%/share}/info
   /usr/local/share/info
   /usr/share/info
   $infopath
@@ -26,6 +30,8 @@ infopath=(
 
 # Set the list of directories that man searches for manuals.
 manpath=(
+  $datadir/man
+  ${datadir%/share}/man
   /usr/local/share/man
   /usr/share/man
   $manpath
@@ -38,6 +44,7 @@ unset path_file
 
 # Set the list of directories that Zsh searches for programs.
 path=(
+  ${datadir%/share}/bin
   /usr/local/{bin,sbin}
   /usr/{bin,sbin}
   /{bin,sbin}
@@ -49,14 +56,16 @@ for path_file in /etc/paths.d/*(.N); do
 done
 unset path_file
 
+unset datadir
+
 # Language
 if [[ -z "$LANG" ]]; then
   eval "$(locale)"
 fi
 
 # Editors
-export EDITOR='nano'
-export VISUAL='nano'
+export EDITOR='vim'
+export VISUAL='vim'
 export PAGER='less'
 
 # Browser (Default)
@@ -69,7 +78,7 @@ fi
 # Set the default Less options.
 # Mouse-wheel scrolling has been disabled by -X (disable screen clearing).
 # Remove -X and -F (exit if the content fits on one screen) to enable it.
-export LESS='-F -g -i -M -R -S -w -X -z-4'
+export LESS='-i -M -R -S -z-4'
 
 # Set the Less input preprocessor.
 if (( $+commands[lesspipe.sh] )); then

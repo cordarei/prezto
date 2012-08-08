@@ -7,7 +7,15 @@
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
 
+# Return if requirements are not found.
+if (( ! $+commands[rails] )); then
+  return 1
+fi
+
+#
 # Aliases (Compatible with Rails 2)
+#
+
 alias rc='_rails-command console'
 alias rdc='_rails-command dbconsole'
 alias rdm='rake db:migrate'
@@ -22,7 +30,10 @@ alias rs='_rails-command server'
 alias rsd='_rails-command server --debugger'
 alias rx='_rails-command destroy'
 
+#
 # Functions
+#
+
 function _rails-command {
   if [[ -e "script/server" ]]; then
     ruby script/"$@"

@@ -6,13 +6,17 @@
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
 
-# Dumb terminals lack support.
+# Return if requirements are not found.
 if [[ "$TERM" == 'dumb' ]]; then
   return 1
 fi
 
 # Load and initialize the completion system ignoring insecure directories.
 autoload -Uz compinit && compinit -i -d "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump"
+
+#
+# Options
+#
 
 setopt COMPLETE_IN_WORD    # Complete from both ends of a word.
 setopt ALWAYS_TO_END       # Move cursor to the end of a completed word.
@@ -25,6 +29,10 @@ unsetopt FLOW_CONTROL      # Disable start/stop characters in shell editor.
 
 # Treat these characters as part of a word.
 WORDCHARS='*?_-.[]~&;!#$%^(){}<>'
+
+#
+# Styles
+#
 
 # Use caching to make completion for cammands such as dpkg and apt usable.
 zstyle ':completion::complete:*' use-cache on

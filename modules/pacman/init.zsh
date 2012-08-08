@@ -9,6 +9,15 @@
 #   https://wiki.archlinux.org/index.php/Pacman_Tips
 #
 
+# Return if requirements are not found.
+if (( ! $+commands[pacman] )); then
+  return 1
+fi
+
+#
+# Frontend
+#
+
 # Get the Pacman frontend.
 zstyle -s ':omz:module:pacman' frontend '_pacman_frontend'
 
@@ -20,7 +29,9 @@ if (( $+commands[$_pacman_frontend] )); then
   fi
 fi
 
+#
 # Aliases
+#
 
 # Installs packages from repositories.
 alias paci='sudo pacman --sync'

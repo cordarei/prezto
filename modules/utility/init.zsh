@@ -13,7 +13,9 @@ omodload 'spectrum'
 # Correct commands.
 setopt CORRECT
 
+#
 # Aliases
+#
 
 # Disable correction.
 alias ack='nocorrect ack'
@@ -30,14 +32,17 @@ alias mkdir='nocorrect mkdir'
 alias mv='nocorrect mv'
 alias mysql='nocorrect mysql'
 alias rm='nocorrect rm'
-alias scp='nocorrect scp'
 
 # Disable globbing.
 alias fc='noglob fc'
 alias find='noglob find'
+alias ftp='noglob ftp'
 alias history='noglob history'
 alias locate='noglob locate'
 alias rake='noglob rake'
+alias rsync='noglob rsync'
+alias scp='noglob scp'
+alias sftp='noglob sftp'
 
 # Define general aliases.
 alias _='sudo'
@@ -128,7 +133,9 @@ fi
 # Serves a directory via HTTP.
 alias http-serve='python -m SimpleHTTPServer'
 
+#
 # Functions
+#
 
 # Makes a directory and changes to it.
 function mkdcd {

@@ -28,8 +28,8 @@ if [[ -n "$WORKON_HOME" ]] && (( $+commands[virtualenvwrapper.sh] )); then
 fi
 
 # Load pythonz into the shell session, if available
-if [[ -s $HOME/.pythonz/bin/pythonz ]]; then
-  path=($HOME/.pythonz/bin $path)
+if [[ -s "${PYTHONZ_ROOT:-$HOME/.pythonz}/bin/pythonz" ]]; then
+  path=(${PYTHONZ_ROOT:-$HOME/.pythonz}/bin $path)
 
   function pythonz {
     command pythonz "$@" && builtin hash -r

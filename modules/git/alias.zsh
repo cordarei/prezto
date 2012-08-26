@@ -3,7 +3,11 @@
 #
 # Authors:
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
+#   Joseph Irwin <joseph.irwin.gt@gmail.com>
 #
+
+# Extended glob conflicts with git refs like `HEAD^`
+alias git='noglob git'
 
 # Git
 alias g='git'

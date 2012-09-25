@@ -3,7 +3,11 @@
 #
 # Authors:
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
-#
+
+# Make sure the zsh cache directory exists.
+zsh_cache_dir="$XDG_CACHE_HOME/zsh"
+[[ -d "$zsh_cache_dir" ]] || mkdir -p "$zsh_cache_dir"
+unset zsh_cache_dir
 
 # Execute code that does not affect the current session in the background.
 {
@@ -20,10 +24,3 @@
     done
   fi
 } &!
-
-# Print a random, hopefully interesting, adage.
-if (( $+commands[fortune] )); then
-  fortune -a
-  print
-fi
-

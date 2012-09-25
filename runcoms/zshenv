@@ -3,7 +3,9 @@
 #
 # Authors:
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
+#   Joseph Irwin <joseph.irwin.gt@gmail.com>
 #
+
 
 #
 # Browser
@@ -13,13 +15,15 @@ if [[ "$OSTYPE" == darwin* ]]; then
   export BROWSER='open'
 fi
 
+
 #
 # Editors
 #
 
-export EDITOR='nano'
-export VISUAL='nano'
+export EDITOR='vim'
+export VISUAL='vim'
 export PAGER='less'
+
 
 #
 # Language
@@ -29,6 +33,7 @@ if [[ -z "$LANG" ]]; then
   eval "$(locale)"
 fi
 
+
 #
 # Less
 #
@@ -36,12 +41,13 @@ fi
 # Set the default Less options.
 # Mouse-wheel scrolling has been disabled by -X (disable screen clearing).
 # Remove -X and -F (exit if the content fits on one screen) to enable it.
-export LESS='-F -g -i -M -R -S -w -X -z-4'
+export LESS='-i -M -R -S -z-4'
 
 # Set the Less input preprocessor.
 if (( $+commands[lesspipe.sh] )); then
   export LESSOPEN='| /usr/bin/env lesspipe.sh %s 2>&-'
 fi
+
 
 #
 # Paths
@@ -50,7 +56,39 @@ fi
 typeset -gU cdpath fpath mailpath manpath path
 typeset -gUT INFOPATH infopath
 
-datadir="${XDG_DATA_HOME:-$HOME/.local/share}"
+# XDG directories:
+
+# Get basic directories or use defaults
+XDG_DATA_HOME=${XDG_DATA_HOME:-"$HOME/.local/share"}
+XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-"$HOME/.config"}
+XDG_CACHE_HOME=${XDG_CACHE_HOME:-"$HOME/.cache"}
+
+# Source user directory definitions
+if [[ -f "$XDG_CONFIG_HOME/user-dirs.dirs" ]]; then
+    source "$XDG_CONFIG_HOME/user-dirs.dirs"
+    export \
+        XDG_DATA_HOME \
+        XDG_CONFIG_HOME \
+        XDG_CACHE_HOME \
+        XDG_DESKTOP_DIR \
+        XDG_DOWNLOAD_DIR \
+        XDG_TEMPLATES_DIR \
+        XDG_PUBLICSHARE_DIR \
+        XDG_DOCUMENTS_DIR \
+        XDG_MUSIC_DIR \
+        XDG_PICTURES_DIR \
+        XDG_VIDEOS_DIR
+fi
+
+# Set the path to prezto
+export PREZTO="$XDG_CONFIG_HOME/dotfiles/prezto"
+
+# Set the path to use for pythonz installs
+export PYTHONZ_ROOT="$XDG_DATA_HOME/pythonz"
+# Set the path to use for virtualenvwrappper environments
+export WORKON_HOME="$XDG_DATA_HOME/pyvenvs"
+
+datadir="$XDG_DATA_HOME"
 
 # Set the the list of directories that cd searches.
 # cdpath=(
@@ -96,6 +134,23 @@ unset path_file
 
 unset datadir
 
+
+#
+# System Tweaks
+#
+
+# Fix VTE/Terminal misfeature
+if [[ "$COLORTERM" == "Terminal" ]] && [[ "$TERM" == "xterm" ]]; then
+    TERM="xterm-256color"
+fi
+
+# Prevent Ubuntu from calling compinit in /etc/zsh/zshenv
+skip_global_compinit=1
+
+# Work around a bug in tmux/libevent
+export EVENT_NOEPOLL=1
+
+
 #
 # Temporary Files
 #
@@ -106,4 +161,3 @@ if [[ -d "$TMPDIR" ]]; then
     mkdir -p "$TMPPREFIX"
   fi
 fi
-

@@ -4,6 +4,7 @@
 # Authors:
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #   Colin Hebert <hebert.colin@gmail.com>
+#   Joseph Irwin <joseph.irwin.gt@gmail.com>
 #
 
 # Return if requirements are not found.
@@ -42,3 +43,17 @@ fi
 
 alias tmuxa='tmux attach-session'
 alias tmuxl='tmux list-sessions'
+
+#
+# Functions
+#
+
+function tm {
+    local session="${1:-$USER}"
+
+    if tmux has-session -t "$session" >/dev/null 2>&1 ; then
+        tmux attach -t "$session"
+    else
+        tmux new-session -s "$session"
+    fi
+}

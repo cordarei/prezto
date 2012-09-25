@@ -14,7 +14,7 @@ fi
 # Auto Start
 #
 
-if [[ -z "$STY" ]] && zstyle -t ':omz:module:screen' auto-start; then
+if [[ -z "$STY" ]] && zstyle -t ':prezto:module:screen' auto-start; then
   session="$(
     screen -list 2> /dev/null \
       | sed '1d;$d' \
@@ -32,7 +32,8 @@ fi
 # Aliases
 #
 
-alias sl="screen -list"
-alias sn="screen -U -S"
-alias sr="screen -a -A -U -D -R"
+alias scr='screen'
+alias scrl='screen -list'
+alias scrn='screen -U -S'
+alias scrr='screen -a -A -U -D -R'
 

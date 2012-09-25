@@ -19,7 +19,7 @@ fi
 #
 
 # Get the Pacman frontend.
-zstyle -s ':omz:module:pacman' frontend '_pacman_frontend'
+zstyle -s ':prezto:module:pacman' frontend '_pacman_frontend'
 
 if (( $+commands[$_pacman_frontend] )); then
   alias pacman="$_pacman_frontend"
@@ -32,6 +32,9 @@ fi
 #
 # Aliases
 #
+
+# Pacman.
+alias pac='pacman'
 
 # Installs packages from repositories.
 alias paci='sudo pacman --sync'

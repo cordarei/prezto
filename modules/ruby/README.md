@@ -38,19 +38,41 @@ dependencies, with [Bundler][4].
 Aliases
 -------
 
+### General
+
+  - `rb` is short for `ruby`.
+
 ### Bundler
 
-  - `b` manages ruby dependencies (`bundle`).
-  - `be` executes a script in the context of the current bundle.
-  - `bi` installs the gems specified in the *Gemfile* in *vendor/bundle*.
-  - `bI` installs the following:
+  - `rbb` manages ruby dependencies (`bundle`).
+  - `rbbe` executes a script in the context of the current bundle.
+  - `rbbi` installs the gems specified in the *Gemfile* in *vendor/bundle*.
+  - `rbbI` installs the following:
     - gems specified in the *Gemfile* in *vendor/bundle*.
     - packages the gems into *vendor/cache*.
     - appends bundler directories to  *.gitignore*.
-  - `bl` lists all gems in the current bundle.
-  - `bo` opens an installed gem in the editor.
-  - `bp` packages gem files into *vendor/cache*.
-  - `bu` updates gems to their latest version.
+  - `rbbl` lists all gems in the current bundle.
+  - `rbbo` opens an installed gem in the editor.
+  - `rbbp` packages gem files into *vendor/cache*.
+  - `rbbu` updates gems to their latest version.
+
+Functions
+---------
+
+  - `ruby-info` exposes information about the Ruby environment via the
+    `$ruby_info` associative array.
+
+Theming
+-------
+
+To display the name of the current Ruby version in a prompt, define the
+following style in the `prompt_theme_setup` function.
+
+    # %v - ruby version.
+    zstyle ':prezto:module:ruby' version 'version:%v'
+
+Then add `$ruby_info[version]` to `$PROMPT` or `$RPROMPT` and call
+`ruby-info` in the `prompt_theme_preexec` hook function.
 
 Authors
 -------
@@ -63,5 +85,5 @@ Authors
 [2]: https://rvm.io
 [3]: https://github.com/sstephenson/rbenv
 [4]: http://gembundler.com
-[5]: https://github.com/sorin-ionescu/oh-my-zsh/issues
+[5]: https://github.com/sorin-ionescu/prezto/issues
 

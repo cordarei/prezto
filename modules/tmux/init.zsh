@@ -15,8 +15,8 @@ fi
 # Auto Start
 #
 
-if [[ -z "$TMUX" ]] && zstyle -t ':omz:module:tmux' auto-start; then
-  tmux_session='#OMZ'
+if [[ -z "$TMUX" ]] && zstyle -t ':prezto:module:tmux' auto-start; then
+  tmux_session='#Prezto'
 
   if ! tmux has-session -t "$tmux_session" 2> /dev/null; then
     # Disable the destruction of unattached sessions globally.
@@ -40,5 +40,5 @@ fi
 # Aliases
 #
 
-alias ta="tmux attach-session"
-alias tl="tmux list-sessions"
+alias tmuxa='tmux attach-session'
+alias tmuxl='tmux list-sessions'

@@ -11,6 +11,9 @@ if [[ "$TERM" == 'dumb' ]]; then
   return 1
 fi
 
+# Add zsh-completions to $fpath.
+fpath=("${0:h}/external/src" $fpath)
+
 # Load and initialize the completion system ignoring insecure directories.
 autoload -Uz compinit && compinit -i -d "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump"
 
@@ -36,10 +39,10 @@ WORDCHARS='*?_-.[]~&;!#$%^(){}<>'
 
 # Use caching to make completion for cammands such as dpkg and apt usable.
 zstyle ':completion::complete:*' use-cache on
-zstyle ':completion::complete:*' cache-path "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcache"
+zstyle ':completion::complete:*' cache-path "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompcache"
 
 # Case-insensitive (all), partial-word, and then substring completion.
-if zstyle -t ':omz:module:completion:*' case-sensitive; then
+if zstyle -t ':prezto:module:completion:*' case-sensitive; then
   zstyle ':completion:*' matcher-list 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
   setopt CASE_GLOB
 else

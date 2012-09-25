@@ -188,8 +188,8 @@ function v {
     if (( $+commands[vi] )); then
       vi $@
     else
-      echo "No vi installed!"
-      return 1
+      e $@
     fi
   fi
 }
+alias vi=v

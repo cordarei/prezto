@@ -5,6 +5,7 @@
 #   Robby Russell <robby@planetargon.com>
 #   Suraj N. Kurapati <sunaku@gmail.com>
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
+#   Joseph Irwin <joseph.irwin.gt@gmail.com>
 #
 
 # Load dependencies.
@@ -47,15 +48,17 @@ alias sftp='noglob sftp'
 # Define general aliases.
 alias _='sudo'
 alias b='${(z)BROWSER}'
-alias cp="${aliases[cp]:-cp} -i"
 alias e='${(z)VISUAL:-${(z)EDITOR}}'
-alias ln="${aliases[ln]:-ln} -i"
 alias mkdir="${aliases[mkdir]:-mkdir} -p"
-alias mv="${aliases[mv]:-mv} -i"
 alias p='${(z)PAGER}'
 alias po='popd'
 alias pu='pushd'
 alias type='type -a'
+
+# Useful global aliases
+alias -g LS='|less'
+alias -g LC='|wc -l'
+alias -g WC='|wc'
 
 # ls
 if is-callable 'dircolors'; then
@@ -177,3 +180,16 @@ function psu {
   ps -U "${1:-$USER}" -o 'pid,%cpu,%mem,command' "${(@)argv[2,-1]}"
 }
 
+# Runs the best available vi-compatible editor
+function v {
+  if (( $+commands[vim] )); then
+    vim $@
+  else
+    if (( $+commands[vi] )); then
+      vi $@
+    else
+      echo "No vi installed!"
+      return 1
+    fi
+  fi
+}

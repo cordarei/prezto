@@ -34,11 +34,6 @@ if (( $+commands[virtualenvwrapper_lazy.sh] )); then
   source "$commands[virtualenvwrapper_lazy.sh]"
 fi
 
-# Load pythonz into the shell session.
-if [[ -s $HOME/.pythonz/bin/pythonz ]]; then
-  path=($HOME/.pythonz/bin $path)
-fi
-
 #
 # Aliases
 #

@@ -34,6 +34,15 @@ if (( $+commands[virtualenvwrapper_lazy.sh] )); then
   source "$commands[virtualenvwrapper_lazy.sh]"
 fi
 
+# Load pythonz into the shell session, if available
+if [[ -s "${PYTHONZ_ROOT:-$HOME/.pythonz}/bin/pythonz" ]]; then
+  path=(${PYTHONZ_ROOT:-$HOME/.pythonz}/bin $path)
+
+  function pythonz {
+    command pythonz "$@" && builtin hash -r
+  }
+fi
+
 #
 # Aliases
 #
@@ -49,13 +58,4 @@ if (( $+commands[pythonz] )); then
   alias pyzL='pythonz list -a'
   alias pyzu='pythonz update'
   alias pyzx='pythonz uninstall'
-fi
-
-# Load pythonz into the shell session, if available
-if [[ -s "${PYTHONZ_ROOT:-$HOME/.pythonz}/bin/pythonz" ]]; then
-  path=(${PYTHONZ_ROOT:-$HOME/.pythonz}/bin $path)
-
-  function pythonz {
-    command pythonz "$@" && builtin hash -r
-  }
 fi

@@ -17,6 +17,10 @@ function +vi-git-status() {
 
 function prompt_cordarei_precmd () {
   vcs_info
+
+  if (( $+functions[python-info] )); then
+    python-info
+  fi
 }
 
 function prompt_cordarei_setup() {
@@ -38,7 +42,10 @@ function prompt_cordarei_setup() {
   zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b|%F{cyan}%r%f'
   zstyle ':vcs_info:git*+set-message:*' hooks git-status
 
-  PROMPT="%B%F{green}%n@%m%b%f %B%F{blue}%D{[%I:%M:%S]}%f%b %F{white}[%~]%f %F{green}"'${vcs_info_msg_0_}'"
+  # Set python-info parameters.
+  zstyle ':prezto:module:python' virtualenv '(%v)'
+
+  PROMPT="%B%F{green}%n@%m%b%f %B%F{blue}%D{[%I:%M:%S]}%f%b %F{white}[%~]%f %F{green}"'${vcs_info_msg_0_} %F{yellow}$python_info[virtualenv]'"
 %F{blue}-> %B%#%b%f "
 }
 

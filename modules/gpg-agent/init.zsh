@@ -4,6 +4,7 @@
 # Authors:
 #   Florian Walch <florian.walch@gmx.at>
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
+#   neersighted <neersighted@myopera.com>
 #
 
 # Return if requirements are not found.
@@ -11,10 +12,20 @@ if (( ! $+commands[gpg-agent] )); then
   return 1
 fi
 
-_gpg_env="$HOME/.gnupg/gpg-agent.env"
+# Make sure to use the $GNUPGHOME first.
+_gpg_env="${GNUPGHOME:-$HOME/.gnupg}/gpg-agent.env"
 
 function _gpg-agent-start {
-  gpg-agent --daemon --enable-ssh-support --write-env-file "${_gpg_env}" > /dev/null
+  local ssh_support
+
+  zstyle -b ':prezto:module:gpg-agent' ssh-support 'ssh_support' \
+    || ssh_support=''
+
+  gpg-agent \
+    --daemon \
+    ${ssh_support:+'--enable-ssh-support'} \
+    --write-env-file "${_gpg_env}" > /dev/null
+
   chmod 600 "${_gpg_env}"
   source "${_gpg_env}" > /dev/null
 }
@@ -33,4 +44,3 @@ export GPG_AGENT_INFO
 export SSH_AUTH_SOCK
 export SSH_AGENT_PID
 export GPG_TTY="$(tty)"
-

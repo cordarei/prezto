@@ -53,7 +53,7 @@ zstyle ':prezto:module:editor' dot-expansion 'yes'
 #
 
 # Ignore submodules when they are 'dirty', 'untracked', 'all', or 'none'.
-# zstyle ':prezto:module:git:ignore' submodule 'all'
+# zstyle ':prezto:module:git:status:ignore' submodules 'all'
 
 #
 # GNU Utility
@@ -91,6 +91,13 @@ zstyle ':prezto:module:prompt' theme 'cordarei'
 
 # Auto start a session when Zsh is launched.
 # zstyle ':prezto:module:screen' auto-start 'yes'
+
+#
+# GPG-Agent
+#
+
+# Enable SSH-Agent protocol emulation.
+# zstyle ':prezto:module:gpg-agent' ssh-support 'yes'
 
 #
 # SSH-Agent

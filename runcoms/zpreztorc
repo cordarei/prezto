@@ -86,6 +86,12 @@ zstyle ':prezto:module:editor' dot-expansion 'yes'
 zstyle ':prezto:module:prompt' theme 'cordarei'
 
 #
+# Python
+#
+
+zstyle ':prezto:module:python:info:virtualenv' format '%F{white}# virtualenv: %v%f'
+
+#
 # Screen
 #
 

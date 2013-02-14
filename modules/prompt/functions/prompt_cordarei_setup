@@ -42,11 +42,16 @@ function prompt_cordarei_setup() {
   zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b|%F{cyan}%r%f'
   zstyle ':vcs_info:git*+set-message:*' hooks git-status
 
-  # Set python-info parameters.
-  zstyle ':prezto:module:python' virtualenv '(%v)'
+  # Format prompt
+  PROMPT="%B%F{green}%n@%m%b%f "
+  PROMPT="${PROMPT}%B%F{blue}%D{[%I:%M:%S]}%f%b "
+  PROMPT="${PROMPT}%F{white}[%~]%f "
+  PROMPT="${PROMPT}"'%F{green}${vcs_info_msg_0_}%f'
+  PROMPT="${PROMPT}
+"
+  PROMPT="${PROMPT} %F{blue}-> %B%#%b%f "
 
-  PROMPT="%B%F{green}%n@%m%b%f %B%F{blue}%D{[%I:%M:%S]}%f%b %F{white}[%~]%f %F{green}"'${vcs_info_msg_0_} %F{yellow}$python_info[virtualenv]'"
-%F{blue}-> %B%#%b%f "
+  RPROMPT='$python_info[virtualenv]'
 }
 
 prompt_cordarei_setup "$@"

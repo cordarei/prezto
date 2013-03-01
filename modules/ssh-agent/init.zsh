@@ -45,33 +45,24 @@ function _ssh-agent-start {
   _ssh-agent-load-identites
 }
 
-# Check for an instance of ssh-agent that may have been started by the X
-# session, and pretend that it was started by prezto.
-if [[ ! -s "${_ssh_agent_env}" ]]; then
-  if [[ -n "$SSH_AGENT_PID" ]]; then
-    ps -e | grep "${SSH_AGENT_PID}" | grep -q 'ssh-agent$'
-    if (( $? == 0 )); then
-      cat >"${_ssh_agent_env}" <<EOS
-SSH_AGENT_PID=$SSH_AGENT_PID; export SSH_AGENT_PID
-SSH_AUTH_SOCK=$SSH_AUTH_SOCK; export SSH_AUTH_SOCK
-echo Agent pid $SSH_AGENT_PID
-EOS
-      _ssh-agent-load-identites
-    fi
-  fi
-fi
+function _ssh-agent-is-running {
+    [[ -n "${1}" ]] && ps -e | grep "${1}" | grep -q 'ssh-agent$'
+}
 
 # Test if agent-forwarding is enabled.
 zstyle -b ':prezto:module:ssh-agent' forwarding '_ssh_agent_forwarding'
 if is-true "${_ssh_agent_forwarding}" && [[ -n "$SSH_AUTH_SOCK" ]]; then
   # Add a nifty symlink for screen/tmux if agent forwarding.
   [[ -L "$SSH_AUTH_SOCK" ]] || ln -sf "$SSH_AUTH_SOCK" /tmp/ssh-agent-$USER-screen
+elif [[ -n "${SSH_AGENT_PID}" ]] && _ssh-agent-is-running "${SSH_AGENT_PID}"; then
+  rm -f "${_ssh_agent_env}"
+  if ! ssh-add -L >/dev/null; then
+    _ssh-agent-load-identites
+  fi
 elif [[ -s "${_ssh_agent_env}" ]]; then
   # Source SSH settings, if applicable.
   source "${_ssh_agent_env}" > /dev/null
-  ps -e | grep "${SSH_AGENT_PID}" | grep -q 'ssh-agent$' || {
-    _ssh-agent-start;
-  }
+  _ssh-agent-is-running || _ssh-agent-start
 else
   _ssh-agent-start;
 fi
@@ -79,5 +70,6 @@ fi
 # Tidy up after ourselves.
 unfunction _ssh-agent-start
 unfunction _ssh-agent-load-identites
+unfunction _ssh-agent-is-running
 unset _ssh_agent_{env,forwarding}
 

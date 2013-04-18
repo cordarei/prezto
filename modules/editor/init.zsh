@@ -40,6 +40,15 @@
 #
 #     zstyle ':prezto:module:editor:info:completing' format '...'
 #
+#   To configure the treatment of words by editing functions like
+#   backward-kill-word, add the following to zpreztorc.
+#
+#     zstyle ':prezto:module:editor' select-word-style 'style'
+#
+#   where 'style' can be: 'bash', 'normal', 'shell', 'whitespace', or
+#   'default' ('default' means the same as 'normal'). See the
+#   documentation for zshcontrib for details.
+#
 
 # Return if requirements are not found.
 if [[ "$TERM" == 'dumb' ]]; then
@@ -350,3 +359,13 @@ fi
 
 unset key{map,}
 
+#
+# select-word-style
+#
+
+zstyle -s ':prezto:module:editor' select-word-style 'wordstyle'
+if [[ -n "$wordstyle" ]]; then
+  autoload -U select-word-style
+  select-word-style "$wordstyle"
+fi
+unset wordstyle

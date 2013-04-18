@@ -49,6 +49,9 @@ zstyle ':prezto:module:editor' keymap 'emacs'
 # Auto convert .... to ../..
 zstyle ':prezto:module:editor' dot-expansion 'yes'
 
+# Make 'backward-kill-word' etc treat words as shell arguments
+zstyle ':prezto:module:editor' select-word-style 'shell'
+
 #
 # Git
 #

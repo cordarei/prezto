@@ -9,3 +9,5 @@
 if [[ -s "${PREZTO}/init.zsh" ]]; then
   source "${PREZTO}/init.zsh"
 fi
+
+eval $(keychain --eval --agents ssh id_dsa 2>/dev/null)

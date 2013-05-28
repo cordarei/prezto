@@ -51,12 +51,24 @@ alias tmuxl='tmux list-sessions'
 # Functions
 #
 
-function tm {
-    local session="${1:-$USER}"
-
-    if tmux has-session -t "$session" >/dev/null 2>&1 ; then
-        tmux attach -t "$session"
-    else
-        tmux new-session -s "$session"
+function fix-ssh {
+  [[ -n "$SSH_AUTH_SOCK" ]] || exit 0
+  if [[ ! -S "$SSH_AUTH_SOCK" ]]; then
+    local _sock="$(find-ssh-auth-sock)"
+    if [[ -S "${_sock}" ]]; then
+      ln -sf "${_sock}" "$SSH_AUTH_SOCK"
     fi
+  fi
+}
+
+function tm {
+  if [[ -z "$TMUX" ]]; then
+    if [[ -S "$HOME/.ssh/auth-sock.$HOST" ]]; then
+      SSH_AUTH_SOCK="$HOME/.ssh/auth-sock.$HOST" tmux-persistent-session
+    else
+      tmux-persistent-session
+    fi
+  else
+    echo "Already inside a tmux session!" 1>&2
+  fi
 }

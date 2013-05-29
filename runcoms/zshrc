@@ -10,4 +10,7 @@ if [[ -s "${PREZTO}/init.zsh" ]]; then
   source "${PREZTO}/init.zsh"
 fi
 
-eval $(keychain --eval --agents ssh id_dsa 2>/dev/null)
+# Use keychain to start ssh-agent/load key if not already
+if [[ -f "$HOME/.ssh/id_dsa" ]]; then
+  eval $(keychain --eval --agents ssh id_dsa 2>/dev/null)
+fi

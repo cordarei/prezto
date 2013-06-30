@@ -52,7 +52,7 @@ alias tmuxl='tmux list-sessions'
 #
 
 function fix-ssh {
-  [[ -n "$SSH_AUTH_SOCK" ]] || exit 0
+  [[ -n "$SSH_AUTH_SOCK" ]] || return 1
   if [[ ! -S "$SSH_AUTH_SOCK" ]]; then
     local _sock="$(find-ssh-auth-sock)"
     if [[ -S "${_sock}" ]]; then

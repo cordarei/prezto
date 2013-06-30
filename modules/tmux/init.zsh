@@ -61,7 +61,10 @@ function fix-ssh {
   fi
 }
 
-function tm {
+function tmu {
+  if (( $# )); then
+    return 1
+  fi
   if [[ -z "$TMUX" ]]; then
     if [[ -S "$HOME/.ssh/auth-sock.$HOST" ]]; then
       SSH_AUTH_SOCK="$HOME/.ssh/auth-sock.$HOST" tmux-persistent-session

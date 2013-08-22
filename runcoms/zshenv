@@ -104,9 +104,11 @@ fi
 # System Tweaks
 #
 
-# Fix VTE/Terminal misfeature
-if [[ "$COLORTERM" == "Terminal" ]] && [[ "$TERM" == "xterm" ]]; then
+# Fix TERM setting
+if [[ "$TERM" == "xterm" ]]; then
+  if [[ "$COLORTERM" == "Terminal" ]] || [[ "$COLORTERM" == "gnome-terminal" ]]; then
     TERM="xterm-256color"
+  fi
 fi
 
 # Prevent Ubuntu from calling compinit in /etc/zsh/zshenv

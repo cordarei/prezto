@@ -60,6 +60,9 @@ alias pacs='pacman --sync --search'
 # Searches for packages in the local database.
 alias pacS='pacman --query --search'
 
+# List all files owned by the given package(s).
+alias pacl='pacman --query --list'
+
 # Lists orphan packages.
 alias pacman-list-orphans='sudo pacman --query --deps --unrequired'
 

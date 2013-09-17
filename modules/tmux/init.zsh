@@ -65,7 +65,7 @@ function fix-ssh {
   fi
 }
 
-function tmu {
+function t {
   if (( $# )); then
     return 1
   fi

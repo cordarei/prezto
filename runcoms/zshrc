@@ -6,9 +6,11 @@
 #
 
 # Source Prezto.
-if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+if [[ -s "${PREZTO}/init.zsh" ]]; then
+  source "${PREZTO}/init.zsh"
 fi
 
-# Customize to your needs...
-
+# Use keychain to start ssh-agent/load key if not already
+if [[ -f "$HOME/.ssh/id_dsa" ]]; then
+  eval $(keychain --eval --agents ssh id_dsa 2>/dev/null)
+fi

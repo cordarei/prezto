@@ -5,6 +5,7 @@
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #   Colin Hebert <hebert.colin@gmail.com>
 #   Georges Discry <georges@discry.be>
+#   Joseph Irwin <joseph.irwin.gt@gmail.com>
 #
 
 # Return if requirements are not found.
@@ -49,3 +50,32 @@ fi
 
 alias tmuxa='tmux attach-session'
 alias tmuxl='tmux list-sessions'
+
+#
+# Functions
+#
+
+function fix-ssh {
+  [[ -n "$SSH_AUTH_SOCK" ]] || return 1
+  if [[ ! -S "$SSH_AUTH_SOCK" ]]; then
+    local _sock="$(find-ssh-auth-sock)"
+    if [[ -S "${_sock}" ]]; then
+      ln -sf "${_sock}" "$SSH_AUTH_SOCK"
+    fi
+  fi
+}
+
+function t {
+  if (( $# )); then
+    return 1
+  fi
+  if [[ -z "$TMUX" ]]; then
+    if [[ -S "$HOME/.ssh/auth-sock.$HOST" ]]; then
+      SSH_AUTH_SOCK="$HOME/.ssh/auth-sock.$HOST" tmux-persistent-session
+    else
+      tmux-persistent-session
+    fi
+  else
+    echo "Already inside a tmux session!" 1>&2
+  fi
+}

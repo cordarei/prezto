@@ -1,0 +1,22 @@
+# Start or attach to a persistent tmux session
+
+local master_session="${1:-$USER}"
+local client_session="${master_session}_$$"
+
+# check for master session
+if ! tmux has-session -t "$master_session" &>/dev/null; then
+  # Ensure that tmux server is started.
+  tmux start-server
+
+  # Create a new session.
+  tmux new-session -d -s "$master_session"
+
+  # Disable the destruction of the new, unattached session.
+  tmux set-option -t "$master_session" destroy-unattached off &> /dev/null
+fi
+
+# create client session
+# tmux new-session -d -t "$master_session" -s "$client_session"
+# tmux set-option -t "$client_session" destroy-unattached on &> /dev/null
+# tmux attach-session -t "$client_session"
+tmux new-session -d -t "$master_session" -s "$client_session" \; set-option -t "$client_session" destroy-unattached on &> /dev/null \; attach-session -t "$client_session"

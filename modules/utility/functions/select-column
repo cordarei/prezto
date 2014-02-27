@@ -1,0 +1,7 @@
+#
+# select-column: Select a column from standard input
+#
+# Usage: 'select-column 2 <filename'
+#
+
+awk "{ print \$$1 }"

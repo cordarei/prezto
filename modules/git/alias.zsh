@@ -3,6 +3,7 @@
 #
 # Authors:
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
+#   Joseph Irwin <joseph.irwin.gt@gmail.com>
 #
 
 #
@@ -25,6 +26,9 @@ zstyle -s ':prezto:module:git:status:ignore' submodules '_git_status_ignore_subm
 #
 # Aliases
 #
+
+# Extended glob conflicts with git refs like `HEAD^`
+alias git='noglob git'
 
 # Git
 alias g='git'

@@ -1,0 +1,26 @@
+#!/usr/bin/env zsh
+
+zstyle -s ':omz:plugin:gen-pass' passfile passfile
+
+patt="$*"
+passfile="${passfile:-$HOME/.passwd}"
+matches=$( cat $passfile | awk "\$1 ~ /$patt/ {print;}" )
+
+if [[ -z "${matches}" ]]; then
+    echo "No matches for pattern $patt"
+elif (( $(echo $matches | wc -l) > 1 )); then
+    echo "Too many matches for pattern $patt"
+    echo $matches
+else
+    echo $matches | read -s domain login length enc hashalg salt
+    echo "Generating password for ${login}@${domain}..."
+    echo -n "Enter your master password or passphrase: "
+    read -s masterpass
+    plain="${salt}${domain}${login}"
+    echo "${plain}" | {
+        case "${enc}" in
+            b64) openssl dgst "-${hashalg}" -binary -hmac "'${masterpass}'" | base64 -w 0 ;;
+            *) openssl dgst "-${hashalg}" -hmac "'${masterpass}'" ;;
+        esac
+    } | cut -c 1-${length}
+fi

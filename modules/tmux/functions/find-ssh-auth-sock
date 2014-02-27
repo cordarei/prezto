@@ -1,0 +1,3 @@
+# Find a socket that is being used by ssh-agent fowarding
+
+$commands[find] /tmp/ssh-* -user $USER -name 'agent*' | tail -n 1

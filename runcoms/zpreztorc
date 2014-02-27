@@ -10,7 +10,7 @@
 #
 
 # Set case-sensitivity for completion, history lookup, etc.
-# zstyle ':prezto:*:*' case-sensitive 'yes'
+zstyle ':prezto:*:*' case-sensitive 'yes'
 
 # Color output (auto set to 'no' on dumb terminals).
 zstyle ':prezto:*:*' color 'yes'
@@ -32,6 +32,11 @@ zstyle ':prezto:load' pmodule \
   'spectrum' \
   'utility' \
   'completion' \
+  'git' \
+  'tmux' \
+  'haskell' \
+  'python' \
+  'pacman' \
   'prompt'
 
 #
@@ -42,7 +47,10 @@ zstyle ':prezto:load' pmodule \
 zstyle ':prezto:module:editor' key-bindings 'emacs'
 
 # Auto convert .... to ../..
-# zstyle ':prezto:module:editor' dot-expansion 'yes'
+zstyle ':prezto:module:editor' dot-expansion 'yes'
+
+# Make 'backward-kill-word' etc treat words as shell arguments
+zstyle ':prezto:module:editor' select-word-style 'shell'
 
 #
 # Git
@@ -79,13 +87,26 @@ zstyle ':prezto:module:editor' key-bindings 'emacs'
 # zstyle ':prezto:module:pacman' frontend 'yaourt'
 
 #
+# Password Generator
+#
+
+# Set password file for gen-pass
+#zstyle ':omz:plugin:gen-pass' passfile "${XDG_CONFIG_HOME}/passwd"
+
+#
 # Prompt
 #
 
 # Set the prompt theme to load.
 # Setting it to 'random' loads a random theme.
 # Auto set to 'off' on dumb terminals.
-zstyle ':prezto:module:prompt' theme 'sorin'
+zstyle ':prezto:module:prompt' theme 'cordarei'
+
+#
+# Python
+#
+
+zstyle ':prezto:module:python:info:virtualenv' format '%F{white}# virtualenv: %v%f'
 
 #
 # Ruby
@@ -135,7 +156,7 @@ zstyle ':prezto:module:prompt' theme 'sorin'
 #
 
 # Auto set the tab and window titles.
-# zstyle ':prezto:module:terminal' auto-title 'yes'
+zstyle ':prezto:module:terminal' auto-title 'no'
 
 # Set the window title format.
 # zstyle ':prezto:module:terminal:window-title' format '%n@%m: %s'

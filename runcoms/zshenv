@@ -3,6 +3,7 @@
 #
 # Authors:
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
+#   Joseph Irwin <joseph.irwin.gt@gmail.com>
 #
 
 # Ensure that a non-login, non-interactive shell has a defined environment.

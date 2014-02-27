@@ -326,3 +326,13 @@ fi
 
 unset key{,map,bindings}
 
+#
+# select-word-style
+#
+
+zstyle -s ':prezto:module:editor' select-word-style 'wordstyle'
+if [[ -n "$wordstyle" ]]; then
+  autoload -U select-word-style
+  select-word-style "$wordstyle"
+fi
+unset wordstyle

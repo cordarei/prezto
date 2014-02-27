@@ -63,6 +63,9 @@ alias pacs="${_pacman_frontend} --sync --search"
 # Searches for packages in the local database.
 alias pacS="${_pacman_frontend} --query --search"
 
+# List all files owned by the given package(s).
+alias pacl="${_pacman_frontend} --query --list"
+
 # Lists orphan packages.
 alias pacman-list-orphans="${_pacman_sudo}${_pacman_frontend} --query --deps --unrequired"
 

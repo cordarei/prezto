@@ -1,0 +1,9 @@
+#
+# replace: Replace a file with the contents of stdin
+#
+# Usage '<some pipeline> | replace <filename>'
+#
+
+tmp=$(mktemp)
+cat >"$tmp"
+mv "$tmp" "$1"

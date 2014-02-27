@@ -20,6 +20,18 @@ To enable the auto conversion of .... to ../.., add the following to
 
     zstyle ':prezto:module:editor' dot-expansion 'yes'
 
+### Select-word-style
+
+To configure the treatment of words by editing functions like
+backward-kill-word, add the following to zpreztorc.
+
+  zstyle ':prezto:module:editor' select-word-style 'style'
+
+where 'style' can be: 'bash', 'normal', 'shell', 'whitespace', or 'default'
+('default' means the same as 'normal'). See the documentation for zshcontrib
+for details.
+
+
 Theming
 -------
 

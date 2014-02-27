@@ -1,0 +1,58 @@
+#
+# A theme similar to 'candy' from the original O-M-Z.
+# Modified from the 'minimal' theme.
+#
+# Authors:
+#   Brian Tse <briankftse@gmail.com>
+#   Sorin Ionescu <sorin.ionescu@gmail.com>
+#   Joseph Irwin <joseph.irwin.gt@gmail.com>
+#
+
+function +vi-git-status() {
+  # Untracked files.
+  if [[ -n $(git ls-files --other --exclude-standard 2> /dev/null) ]]; then
+    hook_com[unstaged]=' %B%F{red}!%b%F{green}'
+  fi
+}
+
+function prompt_cordarei_precmd () {
+  vcs_info
+
+  if (( $+functions[python-info] )); then
+    python-info
+  fi
+}
+
+function prompt_cordarei_setup() {
+  setopt LOCAL_OPTIONS
+  unsetopt XTRACE KSH_ARRAYS
+  prompt_opts=(cr percent subst)
+
+  autoload -Uz add-zsh-hook
+  autoload -Uz vcs_info
+
+  add-zsh-hook precmd prompt_cordarei_precmd
+
+  zstyle ':vcs_info:*' enable bzr git hg svn
+  zstyle ':vcs_info:*' check-for-changes true
+  zstyle ':vcs_info:*' stagedstr ' %F{green}%B+%b%F{green}'
+  zstyle ':vcs_info:*' unstagedstr ' %F{yellow}%B!%b%F{green}'
+  zstyle ':vcs_info:*' formats '[%b%c%u]'
+  zstyle ':vcs_info:*' actionformats " - [%b%c%u|%F{cyan}%a%f]"
+  zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b|%F{cyan}%r%f'
+  zstyle ':vcs_info:git*+set-message:*' hooks git-status
+
+  # Format prompt
+  PROMPT="%B%F{green}%n@%m%b%f "
+  PROMPT="${PROMPT}%B%F{blue}%D{[%I:%M:%S]}%f%b "
+  PROMPT="${PROMPT}%F{white}[%~]%f "
+  PROMPT="${PROMPT}"'%F{green}${vcs_info_msg_0_}%f'
+  PROMPT="${PROMPT}
+"
+  PROMPT="${PROMPT} %F{blue}-> %B%#%b%f "
+
+  RPROMPT='$python_info[virtualenv]'
+}
+
+prompt_cordarei_setup "$@"
+

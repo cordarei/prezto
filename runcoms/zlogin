@@ -3,20 +3,18 @@
 #
 # Authors:
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
-#
+#   Joseph Irwin <joseph.irwin.gt@gmail.com>
+
+# Make sure the zsh cache directory exists.
+zsh_cache_dir="$XDG_CACHE_HOME/zsh"
+[[ -d "$zsh_cache_dir" ]] || mkdir -p "$zsh_cache_dir"
+unset zsh_cache_dir
 
 # Execute code that does not affect the current session in the background.
 {
   # Compile the completion dump to increase startup speed.
-  zcompdump="${ZDOTDIR:-$HOME}/.zcompdump"
+  zcompdump="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump"
   if [[ -s "$zcompdump" && (! -s "${zcompdump}.zwc" || "$zcompdump" -nt "${zcompdump}.zwc") ]]; then
     zcompile "$zcompdump"
   fi
 } &!
-
-# Print a random, hopefully interesting, adage.
-if (( $+commands[fortune] )); then
-  fortune -a
-  print
-fi
-

@@ -6,6 +6,33 @@
 #   Joseph Irwin <joseph.irwin.gt@gmail.com>
 #
 
+
+# Set up XDG environment variables
+XDG_DATA_HOME=${XDG_DATA_HOME:-"$HOME/.local/share"}
+XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-"$HOME/.config"}
+XDG_CACHE_HOME=${XDG_CACHE_HOME:-"$HOME/.cache"}
+
+# Source user directory definitions
+if [[ -f "$XDG_CONFIG_HOME/user-dirs.dirs" ]]; then
+    source "$XDG_CONFIG_HOME/user-dirs.dirs"
+    export \
+        XDG_DATA_HOME \
+        XDG_CONFIG_HOME \
+        XDG_CACHE_HOME \
+        XDG_DESKTOP_DIR \
+        XDG_DOWNLOAD_DIR \
+        XDG_TEMPLATES_DIR \
+        XDG_PUBLICSHARE_DIR \
+        XDG_DOCUMENTS_DIR \
+        XDG_MUSIC_DIR \
+        XDG_PICTURES_DIR \
+        XDG_VIDEOS_DIR
+fi
+
+# Set the path to prezto
+export PREZTO="$XDG_CONFIG_HOME/dotfiles/prezto"
+
+
 # Ensure that a non-login, non-interactive shell has a defined environment.
 if [[ "$SHLVL" -eq 1 && ! -o LOGIN && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprofile"

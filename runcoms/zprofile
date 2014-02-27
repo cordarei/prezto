@@ -40,38 +40,6 @@ fi
 # Ensure path arrays do not contain duplicates.
 typeset -gU cdpath fpath mailpath path
 
-# XDG directories:
-
-# Get basic directories or use defaults
-XDG_DATA_HOME=${XDG_DATA_HOME:-"$HOME/.local/share"}
-XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-"$HOME/.config"}
-XDG_CACHE_HOME=${XDG_CACHE_HOME:-"$HOME/.cache"}
-
-# Source user directory definitions
-if [[ -f "$XDG_CONFIG_HOME/user-dirs.dirs" ]]; then
-    source "$XDG_CONFIG_HOME/user-dirs.dirs"
-    export \
-        XDG_DATA_HOME \
-        XDG_CONFIG_HOME \
-        XDG_CACHE_HOME \
-        XDG_DESKTOP_DIR \
-        XDG_DOWNLOAD_DIR \
-        XDG_TEMPLATES_DIR \
-        XDG_PUBLICSHARE_DIR \
-        XDG_DOCUMENTS_DIR \
-        XDG_MUSIC_DIR \
-        XDG_PICTURES_DIR \
-        XDG_VIDEOS_DIR
-fi
-
-# Set the path to prezto
-export PREZTO="$XDG_CONFIG_HOME/dotfiles/prezto"
-
-# Set the path to use for pythonz installs
-export PYTHONZ_ROOT="$XDG_DATA_HOME/pythonz"
-# Set the path to use for virtualenvwrappper environments
-export WORKON_HOME="$XDG_DATA_HOME/pyvenvs"
-
 # Set the the list of directories that cd searches.
 # cdpath=(
 #   $cdpath

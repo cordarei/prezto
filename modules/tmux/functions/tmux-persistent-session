@@ -1,7 +1,7 @@
 # Start or attach to a persistent tmux session
 
 local master_session="${1:-$USER}"
-local client_session="${master_session}.$$"
+local client_session="${master_session}_$$"
 
 # check for master session
 if ! tmux has-session -t "$master_session" &>/dev/null; then

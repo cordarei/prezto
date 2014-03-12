@@ -33,6 +33,8 @@ elif (( $+commands[chruby-exec] )); then
 # Prepend local gems bin directories to PATH.
 else
   path=($HOME/.gem/ruby/*/bin(N) $path)
+
+  export GEM_HOME=$(ruby -e 'puts Gem.user_dir')
 fi
 
 # Return if requirements are not found.

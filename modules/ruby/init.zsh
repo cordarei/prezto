@@ -34,7 +34,12 @@ elif (( $+commands[chruby-exec] )); then
 else
   path=($HOME/.gem/ruby/*/bin(N) $path)
 
-  export GEM_HOME=$(ruby -e 'puts Gem.user_dir')
+  # older rubies don't have the 'Gem' class
+  gemdir=$(ruby -e 'puts Gem.user_dir' 2>/dev/null)
+  if [ -n "$gemdir" ]; then
+    export GEM_HOME=$gemdir
+  fi
+  unset gemdir
 fi
 
 # Return if requirements are not found.
